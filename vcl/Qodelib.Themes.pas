@@ -8,8 +8,7 @@ uses
   Vcl.Themes;
 
 type
-  TQuarkzThemeType = (qttUnknown, qttWindows, qttQuarkzDarkBlue,
-    qttQuarkzDarkOrange);
+  TQuarkzThemeType = (qttWindows, qttQuarkzDarkBlue, qttQuarkzDarkOrange);
 
   TQuarkzThemeManager = class
   private
@@ -26,6 +25,7 @@ type
     property IsDark: Boolean read GetIsDark;
     property ThemeName: String read GetThemeName write SetThemeName;
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
+    procedure AssignThemeNames(const AStrings: TStrings);
   end;
 
   TQuarkzThemeChangeEvent = class(TObject)
@@ -45,15 +45,24 @@ implementation
 {$R *.res}
 
 const
-  ThemeNames: array[TQuarkzThemeType] of String = ('Windows', 'Windows',
+  ThemeNames: array[TQuarkzThemeType] of String = ('Windows',
     'quarkzDarkBlue', 'quarkzDarkOrange');
 
 { TQuarkzThemeManager }
 
+procedure TQuarkzThemeManager.AssignThemeNames(const AStrings: TStrings);
+var
+  T: TQuarkzThemeType;
+begin
+  AStrings.Clear;
+  for T := Low(TQuarkzThemeType) to High(TQuarkzThemeType) do
+    AStrings.Add(ThemeNames[T]);
+end;
+
 constructor TQuarkzThemeManager.Create;
 begin
   inherited Create;
-  FTheme := qttUnknown;
+  FTheme := qttWindows;
   TStyleManager.LoadFromResource(hInstance, 'quarkzDarkOrange', RT_RCDATA);
   TStyleManager.LoadFromResource(hInstance, 'quarkzDarkBlue', RT_RCDATA);
 end;

@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows,
-  System.SysUtils,
+  System.SysUtils, System.Classes,
   Vcl.Themes;
 
 type
@@ -14,15 +14,27 @@ type
   TQuarkzThemeManager = class
   private
     FTheme: TQuarkzThemeType;
+    FOnChange: TNotifyEvent;
     procedure SetTheme(const Value: TQuarkzThemeType);
     function GetIsDark: Boolean;
     procedure SetThemeName(const Value: String);
     function GetThemeName: String;
+    procedure ThemeChanged;
   public
     constructor Create;
     property Theme: TQuarkzThemeType read FTheme write SetTheme;
     property IsDark: Boolean read GetIsDark;
     property ThemeName: String read GetThemeName write SetThemeName;
+    property OnChange: TNotifyEvent read FOnChange write FOnChange;
+  end;
+
+  TQuarkzThemeChangeEvent = class(TObject)
+  private
+    FTheme: TQuarkzThemeType;
+    procedure SetTheme(const Value: TQuarkzThemeType);
+  public
+    constructor Create(const ATheme: TQuarkzThemeType);
+    property Theme: TQuarkzThemeType read FTheme write SetTheme;
   end;
 
 var
@@ -62,6 +74,7 @@ begin
     begin
       FTheme := Value;
       TStyleManager.TrySetStyle(ThemeName);
+      ThemeChanged;
     end;
 end;
 
@@ -77,6 +90,25 @@ begin
           Break;
         end;
     end;
+end;
+
+procedure TQuarkzThemeManager.ThemeChanged;
+begin
+  if Assigned(FOnChange) then
+    OnChange(self);
+end;
+
+{ TQuarkzThemeChangeEvent }
+
+constructor TQuarkzThemeChangeEvent.Create(const ATheme: TQuarkzThemeType);
+begin
+  inherited Create;
+  FTheme := ATheme;
+end;
+
+procedure TQuarkzThemeChangeEvent.SetTheme(const Value: TQuarkzThemeType);
+begin
+  FTheme := Value;
 end;
 
 initialization

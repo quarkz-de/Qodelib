@@ -19,11 +19,13 @@ type
     procedure SetThemeName(const Value: String);
     function GetThemeName: String;
     procedure ThemeChanged;
+    function GetStyleResource: String;
   public
     constructor Create;
     property Theme: TQuarkzThemeType read FTheme write SetTheme;
     property IsDark: Boolean read GetIsDark;
     property ThemeName: String read GetThemeName write SetThemeName;
+    property StyleResource: String read GetStyleResource;
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
     procedure AssignThemeNames(const AStrings: TStrings);
   end;
@@ -70,6 +72,14 @@ end;
 function TQuarkzThemeManager.GetIsDark: Boolean;
 begin
   Result := FTheme in [qttQuarkzDarkBlue, qttQuarkzDarkOrange];
+end;
+
+function TQuarkzThemeManager.GetStyleResource: String;
+const
+  StyleResources: array[TQuarkzThemeType] of String = (
+    'quarkzDefaultStyles', 'quarkzDarkBlueStyles', 'quarkzDarkOrangeStyles');
+begin
+  Result := StyleResources[Theme];
 end;
 
 function TQuarkzThemeManager.GetThemeName: String;

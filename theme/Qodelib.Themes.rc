@@ -1,2 +1,6 @@
 quarkzDarkOrange VCLSTYLE "quarkzDarkOrange.vsf"
 quarkzDarkBlue VCLSTYLE "quarkzDarkBlue.vsf"
+quarkzDefaultStyles HTML "quarkzDefaultStyles.css"
+quarkzDarkOrangeStyles HTML "quarkzDarkOrangeStyles.css"
+quarkzDarkBlueStyles HTML "quarkzDarkBlueStyles.css"
+

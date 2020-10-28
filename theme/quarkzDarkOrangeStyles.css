@@ -1,0 +1,14 @@
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #f1c40f;
+  text-align: left;
+  padding: 3px;
+}
+
+code {
+  font-size: 10pt;
+  font-family: Consolas, "Courier New", Courier, monospace;
+}

@@ -1,11 +1,19 @@
+body {
+  background-color: white;
+}
+	
 table {
   border-collapse: collapse;
 }
 
 th, td {
-  border: 1px solid black;
+  border: 1px solid #808080;
   text-align: left;
   padding: 3px;
+}
+
+th {
+  background-color: #e0e0e0;
 }
 
 code {

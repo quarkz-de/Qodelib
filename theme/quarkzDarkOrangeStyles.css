@@ -8,6 +8,10 @@ th, td {
   padding: 3px;
 }
 
+th {
+  background-color: #444e59;
+}
+
 code {
   font-size: 10pt;
   font-family: Consolas, "Courier New", Courier, monospace;

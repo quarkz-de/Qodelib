@@ -8,7 +8,8 @@ uses
   Vcl.Themes;
 
 type
-  TQuarkzThemeType = (qttWindows, qttQuarkzDarkBlue, qttQuarkzDarkOrange);
+  TQuarkzThemeType = (qttWindows, qttQuarkzDarkBlue, qttQuarkzDarkOrange,
+    qttQuarkzLightBlue);
 
   TQuarkzThemeManager = class
   private
@@ -48,7 +49,7 @@ implementation
 
 const
   ThemeNames: array[TQuarkzThemeType] of String = ('Windows',
-    'quarkzDarkBlue', 'quarkzDarkOrange');
+    'quarkzDarkBlue', 'quarkzDarkOrange', 'quarkzLightBlue');
 
 { TQuarkzThemeManager }
 
@@ -67,6 +68,7 @@ begin
   FTheme := qttWindows;
   TStyleManager.LoadFromResource(hInstance, 'quarkzDarkOrange', RT_RCDATA);
   TStyleManager.LoadFromResource(hInstance, 'quarkzDarkBlue', RT_RCDATA);
+  TStyleManager.LoadFromResource(hInstance, 'quarkzLightBlue', RT_RCDATA);
 end;
 
 function TQuarkzThemeManager.GetIsDark: Boolean;
@@ -77,7 +79,8 @@ end;
 function TQuarkzThemeManager.GetStyleResource: String;
 const
   StyleResources: array[TQuarkzThemeType] of String = (
-    'quarkzDefaultStyles', 'quarkzDarkBlueStyles', 'quarkzDarkOrangeStyles');
+    'quarkzDefaultStyles', 'quarkzDarkBlueStyles', 'quarkzDarkOrangeStyles',
+      'quarkzLightBlueStyles');
 begin
   Result := StyleResources[Theme];
 end;

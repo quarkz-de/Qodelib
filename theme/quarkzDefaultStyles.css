@@ -20,3 +20,14 @@ code {
   font-size: 10pt;
   font-family: Consolas, "Courier New", Courier, monospace;
 }
+
+pre {
+  border: 1px solid #808080;
+  padding: 3px;
+  background-color: #e0e0e0;
+}
+
+blockquote {
+  border-left: 3px solid #808080;
+  padding-left: 6px;
+}

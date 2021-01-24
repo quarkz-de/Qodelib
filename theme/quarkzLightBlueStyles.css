@@ -3,16 +3,27 @@ table {
 }
 
 th, td {
-  border: 1px solid #3498db;
+  border: 1px solid #808080;
   text-align: left;
   padding: 3px;
 }
 
 th {
-  background-color: #444e59;
+  background-color: #e0e0e0;
 }
 
 code {
   font-size: 10pt;
   font-family: Consolas, "Courier New", Courier, monospace;
+}
+
+pre {
+  border: 1px solid #808080;
+  padding: 3px;
+  background-color: #e0e0e0;
+}
+
+blockquote {
+  border-left: 3px solid #808080;
+  padding-left: 6px;
 }

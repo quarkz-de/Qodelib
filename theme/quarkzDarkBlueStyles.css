@@ -15,4 +15,16 @@ th {
 code {
   font-size: 10pt;
   font-family: Consolas, "Courier New", Courier, monospace;
+  background-color: #444e59;
+}
+
+pre {
+  border: 1px solid #3498db;
+  padding: 3px;
+  background-color: #444e59;
+}
+
+blockquote {
+  border-left: 3px solid #3498db;
+  padding-left: 6px;
 }

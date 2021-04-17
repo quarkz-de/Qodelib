@@ -8,10 +8,15 @@ uses
   Vcl.Controls, Vcl.Forms;
 
 type
+  TDropDownFormOption = (dfoReturnToApply, dfoEscapeToDiscard);
+  TDropDownFormOptions = set of TDropDownFormOption;
+
+  TDropDownCloseAction = (dcaDiscard, dcaApply);
+
   TDropDownForm = class(TForm)
   private
+    FOptions: TDropDownFormOptions;
     procedure WMMouseActivate(var Message: TWMMouseActivate); message WM_MOUSEACTIVATE;
-    procedure CloseDropDown(const AApplyData: Boolean);
   protected
     procedure DoClose(var Action: TCloseAction); override;
     procedure DoCreate; override;
@@ -20,6 +25,10 @@ type
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure ApplyFormData; virtual;
     procedure DiscardFormData; virtual;
+    property Options: TDropDownFormOptions read FOptions write FOptions;
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure CloseDropDown(const AAction: TDropDownCloseAction); virtual;
   end;
 
   TDropDownFormClass = class of TDropDownForm;
@@ -39,13 +48,21 @@ begin
 
 end;
 
-procedure TDropDownForm.CloseDropDown(const AApplyData: Boolean);
+procedure TDropDownForm.CloseDropDown(const AAction: TDropDownCloseAction);
 begin
-  if AApplyData then
-    ApplyFormData
-  else
-    DiscardFormData;
+  case AAction of
+    dcaDiscard:
+      DiscardFormData;
+    dcaApply:
+      ApplyFormData
+  end;
   Close;
+end;
+
+constructor TDropDownForm.Create(AOwner: TComponent);
+begin
+  inherited;
+  FOptions := [dfoReturnToApply, dfoEscapeToDiscard];
 end;
 
 procedure TDropDownForm.CreateParams(var Params: TCreateParams);
@@ -59,7 +76,7 @@ end;
 procedure TDropDownForm.Deactivate;
 begin
   inherited;
-  CloseDropDown(false);
+  CloseDropDown(dcaDiscard);
 end;
 
 procedure TDropDownForm.DiscardFormData;
@@ -85,15 +102,15 @@ procedure TDropDownForm.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   case Key of
     VK_ESCAPE:
-      if Shift = [] then
+      if (dfoEscapeToDiscard in FOptions) and (Shift = []) then
         begin
-          CloseDropDown(false);
+          CloseDropDown(dcaDiscard);
           Key := 0;
         end;
     VK_RETURN:
-      if Shift = [] then
+      if (dfoReturnToApply in FOptions) and (Shift = []) then
         begin
-          CloseDropDown(true);
+          CloseDropDown(dcaApply);
           Key := 0;
         end;
   end;

@@ -2,6 +2,9 @@ unit Qodelib.IOUtils;
 
 interface
 
+uses
+  System.Types, System.IOUtils, System.StrUtils, System.Masks;
+
 type
   TKnownFolders = record
   private
@@ -12,12 +15,23 @@ type
     class function GetProgramsPath: String; static;
   end;
 
+  TFilenameHelper = record
+  public
+    class function CleanupFilename(const AFilename: String): String; static;
+  end;
+
+  TDirectoryHelper = record
+  public
+    class function GetFiles(const APath, AMasks: String): TStringDynArray; static;
+  end;
+
 implementation
 
 uses
-  Winapi.Windows, Winapi.SHFolder;
+  System.SysUtils,
+  Winapi.Windows, Winapi.ShlObj, Winapi.SHFolder;
 
-{$REGION 'TKnownFolders'}
+{ TKnownFolders }
 
 class function TKnownFolders.GetShellFolder(const FolderId: Integer): String;
 var
@@ -46,6 +60,42 @@ begin
   Result := GetShellFolder(CSIDL_PROGRAM_FILES);
 end;
   
-{$ENDREGION}
+{ TFilenameHelper }
+
+class function TFilenameHelper.CleanupFilename(const AFilename: String): String;
+var
+  Path: array[0..MAX_PATH] of WideChar;
+begin
+  StrPCopy(Path, AFilename);
+  case PathCleanupSpec(nil, Path) of
+    PCS_REPLACEDCHAR, PCS_REMOVEDCHAR, PCS_TRUNCATED:
+      Result := WideString(Path);
+    else
+      Result := AFilename;
+  end;
+end;
+
+{ TDirectoryHelper }
+
+class function TDirectoryHelper.GetFiles(const APath,
+  AMasks: String): TStringDynArray;
+var
+  VMaskArray: TStringDynArray;
+  VPredicate: TDirectory.TFilterPredicate;
+begin
+  VMaskArray := SplitString(AMasks, ';');
+  VPredicate :=
+    function(const APath: string; const ASearchRec: TSearchRec): Boolean
+    var
+      VMask: string;
+    begin
+      for VMask in VMaskArray do
+        if MatchesMask(ASearchRec.Name, VMask) then
+          Exit(True);
+      Exit(False);
+    end;
+  Result := TDirectory.GetFiles(APath, TSearchOption.soTopDirectoryOnly,
+    VPredicate);
+end;
 
 end.

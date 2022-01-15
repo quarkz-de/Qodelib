@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0EBE9AD1-B856-48CC-8978-EECAAA00F436}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\packages\Qomponents.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Toolbars\Toolbars.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Qomponents">
+        <MSBuild Projects="..\packages\Qomponents.dproj"/>
+    </Target>
+    <Target Name="Qomponents:Clean">
+        <MSBuild Projects="..\packages\Qomponents.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Qomponents:Make">
+        <MSBuild Projects="..\packages\Qomponents.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Toolbars">
+        <MSBuild Projects="Toolbars\Toolbars.dproj"/>
+    </Target>
+    <Target Name="Toolbars:Clean">
+        <MSBuild Projects="Toolbars\Toolbars.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Toolbars:Make">
+        <MSBuild Projects="Toolbars\Toolbars.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Qomponents;Toolbars"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Qomponents:Clean;Toolbars:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Qomponents:Make;Toolbars:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

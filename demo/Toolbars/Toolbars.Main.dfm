@@ -77,6 +77,7 @@ object Form1: TForm1
           Caption = 'Startseite'
           ImageIndex = 7
           ImageName = '007_Home'
+          AllowReorder = False
         end
         item
           Caption = 'Notizen'

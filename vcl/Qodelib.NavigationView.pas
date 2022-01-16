@@ -198,6 +198,8 @@ type
   end;
 
   TQzNavigationButtonItem = class(TBaseButtonItem)
+  private
+    FAllowReorder: Boolean;
   protected
     function GetNavigationView: TQzNavigationView;
     function GetCollection: TQzNavigationButtonItems;
@@ -205,9 +207,11 @@ type
     procedure SetCollection(const Value: TQzNavigationButtonItems); reintroduce;
     procedure CheckImageIndexAndName;
   public
+    constructor Create(Collection: TCollection); override;
     procedure ScrollIntoView; override;
     property Collection: TQzNavigationButtonItems read GetCollection write SetCollection;
   published
+    property AllowReorder: Boolean read FAllowReorder write FAllowReorder default True;
     property NavigationView: TQzNavigationView read GetNavigationView;
   end;
 
@@ -987,7 +991,8 @@ begin
       FDownIndex := IndexOfButtonAt(X, Y);
       if FDownIndex <> -1 then
         begin
-          if nboAllowReorder in ButtonOptions then
+          if (nboAllowReorder in ButtonOptions) and
+            Items[FDownIndex].AllowReorder then
             FDragIndex := FDownIndex;
           FDragStartPos := Point(X, Y);
           if FDownIndex <> FItemIndex then
@@ -1005,7 +1010,8 @@ var
   DragThreshold: Integer;
 begin
   inherited;
-  if (nboAllowReorder in ButtonOptions) and (FDragIndex <> -1) then
+  if (nboAllowReorder in ButtonOptions) and (FDragIndex <> -1) and
+    Items[FHotIndex].AllowReorder then
     begin
       DragThreshold := Mouse.DragThreshold;
       if (Abs(FDragStartPos.X - X) >= DragThreshold) or
@@ -1522,6 +1528,12 @@ begin
     LImages := nil;
   if (LImages <> nil) and LImages.IsImageNameAvailable then
     LImages.CheckIndexAndName(FImageIndex, FImageName);
+end;
+
+constructor TQzNavigationButtonItem.Create(Collection: TCollection);
+begin
+  inherited Create(Collection);
+  FAllowReorder := true;
 end;
 
 function TQzNavigationButtonItem.GetCollection: TQzNavigationButtonItems;

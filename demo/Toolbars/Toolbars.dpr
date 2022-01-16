@@ -12,7 +12,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Windows11 Modern Light');
   Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.

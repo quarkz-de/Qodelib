@@ -816,14 +816,18 @@ begin
       if (bdsHot in State) and not (bdsDown in State) then
         EdgeColor := GetShadowColor(EdgeColor, -50);
 
-      if not IsStyleEnabled then
+      if bdsSelected in State then
         begin
-          Canvas.Brush.Color := EdgeColor;
-          Canvas.FrameRect(Rect);
+          FillColor := Canvas.Brush.Color;
+          Canvas.Brush.Color := clHotLight;
+          Canvas.Pen.Style := psClear;
+          Canvas.RoundRect(Rect.Left + 4, Rect.Top + 4,
+            Rect.Left + 10, Rect.Bottom - 4, 4, 4);
+          Canvas.Pen.Style := psSolid;
           Canvas.Brush.Color := FillColor;
         end;
 
-      TextLeft := Rect.Left + 4;
+      TextLeft := Rect.Left + 14;
       RectHeight := Rect.Bottom - Rect.Top;
        TextTop := Rect.Top + (RectHeight - Canvas.TextHeight('Wg')) div 2; { Do not localize }
       if TextTop < Rect.Top then
@@ -839,7 +843,7 @@ begin
       if Assigned(FOnDrawIcon) then
         FOnDrawIcon(Self, Index, Canvas, OrgRect, State, TextOffset)
       else if (FImages <> nil) and (ButtonItem.ImageIndex > -1) and
-          (ButtonItem.ImageIndex < FImages.Count) then
+        (ButtonItem.ImageIndex < FImages.Count) then
         begin
           ImgTop := Rect.Top + (RectHeight - FImages.Height) div 2;
           if ImgTop < Rect.Top then
@@ -898,11 +902,6 @@ begin
             Canvas.TextRect(TextRect, Text, [tfEndEllipsis]);
         end;
 
-      if (bdsFocused in State) and not IsStyleEnabled then
-        begin
-          InflateRect(Rect, -2, -2);
-          Canvas.DrawFocusRect(Rect);
-        end;
       if Assigned(FOnAfterDrawButton) then
         FOnAfterDrawButton(Self, Index, Canvas, OrgRect, State);
     end;

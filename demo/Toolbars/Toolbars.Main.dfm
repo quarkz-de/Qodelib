@@ -32,7 +32,7 @@ object Form1: TForm1
       BevelOuter = bvNone
       TabOrder = 0
       object imBurgerButton: TVirtualImage
-        Left = 6
+        Left = 16
         Top = 7
         Width = 32
         Height = 32

@@ -581,11 +581,9 @@ begin
       else if not (csDesigning in ComponentState) and (LButton.ActionLink <> nil) then
         LButton.ActionLink.Execute(Self)
       else if Assigned(LOnClick) then
-        LOnClick(Self)
-      else if Assigned(FOnButtonClicked) then
-        FOnButtonClicked(Self, Index);
-    end
-  else if Assigned(FOnButtonClicked) then
+        LOnClick(Self);
+    end;
+  if Assigned(FOnButtonClicked) then
     FOnButtonClicked(Self, Index);
 end;
 

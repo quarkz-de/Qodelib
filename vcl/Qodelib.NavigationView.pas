@@ -237,9 +237,6 @@ type
 implementation
 
 uses
-{$IF DEFINED(CLR)}
-  System.Security.Permissions, System.Threading, System.Runtime.InteropServices,
-{$ENDIF}
   System.Types, System.UITypes,
   Vcl.Themes, Vcl.GraphUtil, Vcl.ExtCtrls;
 
@@ -269,7 +266,6 @@ procedure TQzNavigationView.AutoScroll(ScrollCode: TScrollCode);
   var
     CursorPoint: TPoint;
   begin
-    { Are we autoscrolling up or down? }
     if ScrollCode = scLineDown then
       begin
         Result := FHiddenItems < FScrollBarMax;
@@ -350,11 +346,7 @@ end;
 procedure TQzNavigationView.CMHintShow(var Message: TCMHintShow);
 var
   ItemIndex: Integer;
-{$IF DEFINED(CLR)}
-  LHintInfo: THintInfo;
-{$ELSE}
   LHintInfo: PHintInfo;
-{$ENDIF}
 begin
   Message.Result := 1;
   if Message.HintInfo.HintControl = Self then
@@ -363,19 +355,13 @@ begin
       if (ItemIndex >= 0) and (ItemIndex < Items.Count) then
         begin
           LHintInfo := Message.HintInfo;
-          with LHintInfo{$IFNDEF CLR}^{$ENDIF} do
-            begin
-              if Items[ItemIndex].Hint <> '' then
-                HintStr := Items[ItemIndex].Hint
-              else
-                HintStr := Items[ItemIndex].Caption;
-            end;
+          if Items[ItemIndex].Hint <> '' then
+            LHintInfo.HintStr := Items[ItemIndex].Hint
+          else
+            LHintInfo.HintStr := Items[ItemIndex].Caption;
           if (Items[ItemIndex].ActionLink <> nil) then
             Items[ItemIndex].ActionLink.DoShowHint(LHintInfo.HintStr);
           LHintInfo.CursorRect := GetButtonRect(ItemIndex);
-{$IF DEFINED(CLR)}
-          Message.HintInfo := LHintInfo;
-{$ENDIF}
           Message.Result := 0;
         end;
     end;
@@ -1047,11 +1033,7 @@ begin
   if not FMouseInControl then
     begin
       FMouseInControl := True;
-{$IF DEFINED(CLR)}
-      EventTrack.cbSize := Marshal.SizeOf(TypeOf(TTrackMouseEvent));
-{$ELSE}
       EventTrack.cbSize := SizeOf(TTrackMouseEvent);
-{$ENDIF}
       EventTrack.dwFlags := TME_LEAVE;
       EventTrack.hwndTrack := Handle;
       EventTrack.dwHoverTime := 0;
@@ -1233,11 +1215,7 @@ begin
 
       FScrollBarMax := TotalRowsNeeded - FPageAmount;
 
-{$IF DEFINED(CLR)}
-      ScrollInfo.cbSize := Marshal.SizeOf(TypeOf(TScrollInfo));
-{$ELSE}
       ScrollInfo.cbSize := SizeOf(TScrollInfo);
-{$ENDIF}
       ScrollInfo.fMask := SIF_RANGE or SIF_POS or SIF_PAGE;
       ScrollInfo.nMin := 0;
       ScrollInfo.nMax := TotalRowsNeeded - 1;

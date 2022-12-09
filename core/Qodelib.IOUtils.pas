@@ -25,6 +25,11 @@ type
     class function GetFiles(const APath, AMasks: String): TStringDynArray; static;
   end;
 
+  TVersionHelper = record
+  public
+    class function GetAppVersion: String; static;
+  end;
+
 implementation
 
 uses
@@ -96,6 +101,38 @@ begin
     end;
   Result := TDirectory.GetFiles(APath, TSearchOption.soTopDirectoryOnly,
     VPredicate);
+end;
+
+{ TVersionHelper }
+
+class function TVersionHelper.GetAppVersion: String;
+var
+  InfoSize: DWORD;
+  Handle: DWORD;
+  Buffer: Pointer;
+  FileInfo: Pointer;
+  Major, Minor, Release, Build: Word;
+  Filename: string;
+begin
+  Result := '';
+  Filename := ParamStr(0);
+
+  InfoSize := GetFileVersionInfoSize(PChar(Filename), Handle);
+  if (InfoSize > 0) then
+    begin
+      GetMem(Buffer, InfoSize);
+      try
+        GetFileVersionInfo(PChar(Filename), 0, InfoSize, Buffer);
+        VerQueryValue(Buffer, '\', FileInfo, Handle);
+        Major := HiWord(PVSFixedFileInfo(FileInfo)^.dwFileVersionMS);
+        Minor := LoWord(PVSFixedFileInfo(FileInfo)^.dwFileVersionMS);
+        Release := HiWord(PVSFixedFileInfo(FileInfo)^.dwFileVersionLS);
+        Build := LoWord(PVSFixedFileInfo(FileInfo)^.dwFileVersionLS);
+      finally
+        FreeMem(Buffer);
+      end;
+      Result := Format('%d.%d.%d.%d', [Major, Minor, Release, Build]);
+    end;
 end;
 
 end.

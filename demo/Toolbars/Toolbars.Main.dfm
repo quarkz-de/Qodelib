@@ -52,6 +52,7 @@ object Form1: TForm1
       BorderStyle = bsNone
       ButtonHeight = 48
       ButtonOptions = [nboGroupStyle, nboShowCaptions]
+      Color = clBtnFace
       Images = VirtualImageList1
       Items = <
         item
@@ -72,6 +73,7 @@ object Form1: TForm1
       BorderStyle = bsNone
       ButtonHeight = 48
       ButtonOptions = [nboAllowReorder, nboGroupStyle, nboShowCaptions]
+      Color = clBtnFace
       Images = VirtualImageList1
       Items = <
         item
@@ -93,7 +95,8 @@ object Form1: TForm1
       ItemIndex = 0
       TabOrder = 2
       OnButtonClicked = QzNavigationView1ButtonClicked
-      ExplicitHeight = 346
+      ExplicitLeft = 120
+      ExplicitTop = 129
     end
   end
   object VirtualImageList1: TVirtualImageList

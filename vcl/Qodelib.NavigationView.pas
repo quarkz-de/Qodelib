@@ -83,7 +83,6 @@ type
     procedure WMSize(var Message: TWMSize); message WM_SIZE;
     procedure SetDragIndex(const Value: Integer);
     procedure CheckImageIndexes;
-    function GetBackgroundColor: TColor;
   protected
     function CreateButton: TQzNavigationButtonItem; virtual;
     procedure CreateHandle; override;
@@ -141,7 +140,6 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle default bsSingle;
     property ButtonHeight: Integer read FButtonHeight write SetButtonHeight default 24;
     property ButtonOptions: TQzNavigationButtonOptions read FButtonOptions write SetButtonOptions default [nboShowCaptions];
-    property Color default clBtnFace;
     property DockSite;
     property DoubleBuffered;
     property DragCursor;
@@ -476,7 +474,6 @@ begin
   Touch.InteractiveGestures := [igPan, igPressAndTap];
   Touch.InteractiveGestureOptions := [igoPanInertia, igoPanSingleFingerHorizontal,
     igoPanSingleFingerVertical, igoPanGutter, igoParentPassthrough];
-  Color := clBtnFace;
 end;
 
 class constructor TQzNavigationView.Create;
@@ -743,7 +740,7 @@ var
   LStyle: TCustomStyleServices;
   LDetails: TThemedElementDetails;
   SaveIndex: Integer;
-  TxtColor, BtnColor: TColor;
+  TxtColor: TColor;
 begin
   if Assigned(FOnDrawButton) and (not (csDesigning in ComponentState)) then
     FOnDrawButton(Self, Index, Canvas, Rect, State)
@@ -768,19 +765,18 @@ begin
         end
       else
         begin
-          BtnColor := GetBackgroundColor;
           if bdsSelected in State then
             begin
-              Canvas.Brush.Color := GetShadowColor(BtnColor, -25);
+              Canvas.Brush.Color := GetShadowColor(clBtnFace, -25);
               Canvas.Font.Color := clBtnText;
             end
           else if bdsDown in State then
             begin
               Canvas.Brush.Color := clBtnShadow;
-              Canvas.Font.Color := clBtnText;
+              Canvas.Font.Color := clBtnFace;
             end
           else
-            Canvas.Brush.Color := BtnColor;
+            Canvas.Brush.Color := clBtnFace;
         end;
 
       if Assigned(FOnBeforeDrawButton) then
@@ -898,20 +894,6 @@ begin
         FOnAfterDrawButton(Self, Index, Canvas, OrgRect, State);
     end;
   Canvas.Brush.Color := Color;
-end;
-
-function TQzNavigationView.GetBackgroundColor: TColor;
-var
-  LColor: TColor;
-  LStyle: TCustomStyleServices;
-begin
-  LStyle := StyleServices(Self);
-  if IsStyleEnabled and
-     LStyle.GetElementColor(LStyle.GetElementDetails(tcbBackground), ecFillColor, LColor) and
-     (LColor <> clNone) then
-    Result := LColor
-  else
-    Result := Color;
 end;
 
 function TQzNavigationView.GetButtonClass: TQzNavigationButtonItemClass;
@@ -1113,7 +1095,7 @@ var
   ActualWidth, ActualHeight: Integer;
   DrawState: TButtonDrawState;
   LColor: TColor;
-//  LStyle: TCustomStyleServices;
+  LStyle: TCustomStyleServices;
   LCanvas: TCanvas;
   Buffer: TBitmap;
 begin
@@ -1128,17 +1110,13 @@ begin
     else
         LCanvas := Canvas;
 
-{
     LStyle := StyleServices(Self);
     if IsStyleEnabled and
        LStyle.GetElementColor(LStyle.GetElementDetails(tcbBackground), ecFillColor, LColor) and
        (LColor <> clNone) then
       LCanvas.Brush.Color := LColor
     else
-      LCanvas.Brush.Color := Color;
-}
-    LColor := GetBackgroundColor;
-    LCanvas.Brush.Color := LColor;
+      LCanvas.Brush.Color := clBtnFace;
 
     DoFillRect(Rect(0, 0, ClientWidth, ClientHeight), LCanvas);
 

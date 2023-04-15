@@ -9,6 +9,9 @@
         <Projects Include="Toolbars\Toolbars.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Panels\Panels.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="Toolbars:Make">
         <MSBuild Projects="Toolbars\Toolbars.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Panels">
+        <MSBuild Projects="Panels\Panels.dproj"/>
+    </Target>
+    <Target Name="Panels:Clean">
+        <MSBuild Projects="Panels\Panels.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Panels:Make">
+        <MSBuild Projects="Panels\Panels.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Qomponents;Toolbars"/>
+        <CallTarget Targets="Qomponents;Toolbars;Panels"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Qomponents:Clean;Toolbars:Clean"/>
+        <CallTarget Targets="Qomponents:Clean;Toolbars:Clean;Panels:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Qomponents:Make;Toolbars:Make"/>
+        <CallTarget Targets="Qomponents:Make;Toolbars:Make;Panels:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

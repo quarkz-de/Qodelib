@@ -13,7 +13,8 @@ procedure Register;
 implementation
 
 uses
-  Qodelib.NavigationView;
+  Qodelib.NavigationView,
+  Qodelib.Panels;
 
 type
   TQzCustomImageIndexProperty = class(TIntegerProperty, ICustomPropertyListDrawing)
@@ -128,7 +129,7 @@ procedure Register;
 const
   SQomponents = 'Qomponents';
 begin
-  RegisterComponents(SQomponents, [TQzNavigationView]);
+  RegisterComponents(SQomponents, [TQzNavigationView, TQzPanel]);
 
   RegisterPropertyEditor(TypeInfo(System.UITypes.TImageIndex), TQzNavigationButtonItem, 'ImageIndex',
     TQzNavigationButtonItemImageIndexProperty);

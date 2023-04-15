@@ -10,7 +10,6 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  PixelsPerInch = 96
   TextHeight = 15
   object SplitView1: TSplitView
     Left = 0
@@ -23,6 +22,7 @@ object Form1: TForm1
     TabOrder = 0
     OnClosed = SplitView1Closed
     OnOpened = SplitView1Opened
+    ExplicitHeight = 440
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -61,6 +61,7 @@ object Form1: TForm1
         end>
       TabOrder = 1
       OnButtonClicked = QzNavigationView2ButtonClicked
+      ExplicitTop = 391
     end
     object QzNavigationView1: TQzNavigationView
       Left = 0
@@ -92,6 +93,7 @@ object Form1: TForm1
       ItemIndex = 0
       TabOrder = 2
       OnButtonClicked = QzNavigationView1ButtonClicked
+      ExplicitHeight = 346
     end
   end
   object VirtualImageList1: TVirtualImageList

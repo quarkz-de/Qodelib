@@ -136,9 +136,10 @@ begin
   Style := StyleServices(Self);
   if Style.Enabled and (seClient in StyleElements) then
     begin
-      Details := Style.GetElementDetails(tpPanelBackground);
-      if Style.GetElementColor(Details, ecFillColor, TmpColor) and (TmpColor <> clNone) then
-        BackgroundColor := TmpColor;
+      BackgroundColor := Style.GetSystemColor(BackgroundColor);
+      // Details := Style.GetElementDetails(tpPanelBackground);
+      // if Style.GetElementColor(Details, ecFillColor, TmpColor) and (TmpColor <> clNone) then
+      //   BackgroundColor := TmpColor;
     end;
   if Style.Enabled and (seBorder in StyleElements) then
     begin

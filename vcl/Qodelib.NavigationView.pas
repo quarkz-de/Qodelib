@@ -200,6 +200,7 @@ type
   TQzNavigationButtonItem = class(TBaseButtonItem)
   private
     FAllowReorder: Boolean;
+    FTag: Integer;
   protected
     function GetNavigationView: TQzNavigationView;
     function GetCollection: TQzNavigationButtonItems;
@@ -213,6 +214,7 @@ type
   published
     property AllowReorder: Boolean read FAllowReorder write FAllowReorder default True;
     property NavigationView: TQzNavigationView read GetNavigationView;
+    property Tag: Integer read FTag write FTag;
   end;
 
   TQzNavigationButtonItems = class(TCollection)

@@ -22,9 +22,9 @@ var
   Pt: TPoint;
 begin
   ZeroMemory(@SliderRect, SizeOf(SliderRect));
-  SendMessage(Handle, TBM_GETTHUMBRECT, 0, DWord(@SliderRect));
+  SendMessage(Handle, TBM_GETTHUMBRECT, 0, LPARAM(@SliderRect));
   ZeroMemory(@ChannelRect, SizeOf(ChannelRect));
-  SendMessage(Handle, TBM_GETCHANNELRECT, 0, DWord(@ChannelRect));
+  SendMessage(Handle, TBM_GETCHANNELRECT, 0, LPARAM(@ChannelRect));
   if Orientation = trHorizontal then
     begin
       Pt := Point(msg.LParamLo, msg.LParamHi);

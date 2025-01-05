@@ -46,7 +46,7 @@ begin
     begin
       Inc(ChannelRect.Left, SliderWidth);
       Dec(ChannelRect.Right, SliderWidth);
-      self.Position := round((Pt.X - ChannelRect.Left) * self.Max / (ChannelRect.Right - ChannelRect.Left));
+      self.Position := self.Min + Round((Pt.X - ChannelRect.Left) * (self.Max - self.Min) / (ChannelRect.Right - ChannelRect.Left));
       inherited;
     end;
 end;

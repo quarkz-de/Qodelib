@@ -1,4 +1,4 @@
-package Qomponents;
+package QomponentsDR;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -25,15 +25,16 @@ package Qomponents;
 {$IMAGEBASE $400000}
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$IMPLICITBUILD ON}
+{$DESCRIPTION 'quarkz.de Qomponents Delphi runtime package'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
 
 requires
   rtl,
   vcl,
-  designide;
+  vclx;
 
 contains
-  Qodelib.Register in '..\vcl\Qodelib.Register.pas',
   Qodelib.NavigationView in '..\vcl\Qodelib.NavigationView.pas',
   Qodelib.Panels in '..\vcl\Qodelib.Panels.pas';
 

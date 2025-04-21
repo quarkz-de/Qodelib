@@ -5,16 +5,22 @@ interface
 uses
   Winapi.Windows, Winapi.Messages,
   System.SysUtils, System.Classes, System.Math, System.UITypes,
-  Vcl.Graphics, Vcl.ImgList,
-  DesignIntf, DesignEditors, VCLEditors;
+  Vcl.Graphics, Vcl.ImgList;
 
+{$IFDEF WIN32}
 procedure Register;
+{$ENDIF}
 
 implementation
 
+{$IFDEF WIN32}
 uses
+  DesignIntf, DesignEditors, VCLEditors,
   Qodelib.NavigationView,
   Qodelib.Panels;
+{$ENDIF}
+
+{$IFDEF WIN32}
 
 type
   TQzCustomImageIndexProperty = class(TIntegerProperty, ICustomPropertyListDrawing)
@@ -134,5 +140,6 @@ begin
   RegisterPropertyEditor(TypeInfo(System.UITypes.TImageIndex), TQzNavigationButtonItem, 'ImageIndex',
     TQzNavigationButtonItemImageIndexProperty);
 end;
+{$ENDIF}
 
 end.

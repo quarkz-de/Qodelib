@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E05026D2-9C16-466D-9B76-4259A351362F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="QomponentsDD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="QomponentsDR.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="QomponentsDD">
+        <MSBuild Projects="QomponentsDD.dproj"/>
+    </Target>
+    <Target Name="QomponentsDD:Clean">
+        <MSBuild Projects="QomponentsDD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="QomponentsDD:Make">
+        <MSBuild Projects="QomponentsDD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="QomponentsDR">
+        <MSBuild Projects="QomponentsDR.dproj"/>
+    </Target>
+    <Target Name="QomponentsDR:Clean">
+        <MSBuild Projects="QomponentsDR.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="QomponentsDR:Make">
+        <MSBuild Projects="QomponentsDR.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="QomponentsDD;QomponentsDR"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="QomponentsDD:Clean;QomponentsDR:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="QomponentsDD:Make;QomponentsDR:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

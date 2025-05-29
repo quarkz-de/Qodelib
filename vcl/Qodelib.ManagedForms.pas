@@ -146,13 +146,17 @@ end;
 
 function TQzManagedFormList.GetActiveForm: TQzManagedForm;
 var
-  Form: TQzManagedForm;
+  Form, SubForm: TQzManagedForm;
 begin
   Result := nil;
   for Form in FForms.Values do
     if (Form <> nil) and (Form.Visible) then
       begin
         Result := Form;
+        SubForm := Form.ManagedForms.ActiveForm;
+        if SubForm <> nil then
+          Result := SubForm;
+
         Break;
       end;
 end;
